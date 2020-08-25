@@ -30,6 +30,13 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json({ extended: true }));
 
+// TODO: TESTING/REMOVE - An api endpoint that returns a short list of items
+app.get('/api/getList2', (req, res) => {
+  const list = ['item3', 'item4'];
+  res.json(list);
+  console.log('Sent list of items');
+});
+
 app.use('/api', userRouter);
 
 const port = process.env.PORT || serverPort;
