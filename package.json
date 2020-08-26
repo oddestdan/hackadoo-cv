@@ -5,7 +5,8 @@
   "main": "./index.js",
   "private": true,
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "server": "nodemon index.js"
   },
   "keywords": [],
   "author": "",
@@ -22,6 +23,9 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.9.6",
     "mongoose-unique-validator": "^2.0.3"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
   },
   "browserslist": {
     "production": [
