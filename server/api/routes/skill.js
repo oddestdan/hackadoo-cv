@@ -4,6 +4,7 @@ const router = new Router;
 const SkillFront = require('../models/SkillFront');
 const SkillBack = require('../models/SkillBack');
 const SkillDevops = require('../models/SkillDevops');
+const bildRoadmap = require('../../middleware/bildRoadmap');
 
 //------change nextId in prev skill in DB--------------------
 
@@ -23,6 +24,28 @@ const fillNextId = async (schema, id) => {
       }
     });
 };
+
+//------get roadmap-------------
+
+router.post('/roadmap', (req, res) => {
+  const cv = req.body;
+
+    const road = bildRoadmap(req.body.path, cv.skills)
+
+});
+
+//-----get all--------------
+
+router.get('/all/back', (req, res) => {
+  SkillBack.find({})
+    .then((skill) => {
+      res.status(200).json(skill);
+    })
+    .catch((err) => {
+      return res.status(404).json({status: err.name});
+    });
+});
+
 
 //------get first skill---------------
 
