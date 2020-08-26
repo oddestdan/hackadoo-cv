@@ -6,9 +6,19 @@ const findIds = (arr) => {
   let result = [];
 
   arr.forEach(i => {
-    result.push(i._id);
+    result.push(i.skillId);
   });
 
+  return result;
+};
+const findCheckedIds = (arr) => {
+  let result = [];
+
+  arr.forEach(i => {
+    if(i.checkAll){
+      result.push(i.skillId);
+    }
+  });
   return result;
 };
 
@@ -16,8 +26,7 @@ const findChildrenIds = (arr) => {
   let result = [];
 
   arr.forEach(i => {
-    let arr = findIds(i.childrenSkills);
-    result.concat(arr);
+    result = findIds(i.childrenSkills);
   });
 
   return result;
@@ -39,52 +48,45 @@ const getAllSkills = async (path) =>{
       schema = SkillFront;
   }
 
-  await schema.find({})
-.then((all) => {
-    console.log(all)
-    // res.status(200).json(road);
-  })
-    .catch((err) => {
-      console.log(err.name);
-    });
+
+  let allSkills = await schema.find({});
+  return allSkills;
 
 };
 
-const getFilteredSkills = (skills) =>{
+const getFilteredSkills = (skills, ids) =>{
   const filteredSkills = skills.filter((item) => {
-    return !item.checkAll
+     return !ids.includes(String(item._id))
   });
-  // console.log('filteredSkills', filteredSkills);
   return filteredSkills;
 };
 
 const filterChildrenSkills = async(skills, ids) =>{
   const resultSkills = skills;
   resultSkills.forEach(item => {
-    return item.childrenSkills.filter(element => {
-      return !ids.includes(element._id)
+    let newChildren = item.childrenSkills.filter(element => {
+      return !ids.includes(String(element._id))
     });
+
+    item.childrenSkills = newChildren;
   });
 
-  // console.log('resultSkills', resultSkills);
   return resultSkills;
 };
 
 
 
 const bildRoadmap = async (path, cv) => {
+  let checkedId = findCheckedIds(cv);
   let childrensId = findChildrenIds(cv);
 
-  getAllSkills(path)
-    .then((res) => {
-      let allSkills = res;
-      let filteredSkills = getFilteredSkills(allSkills);
-      let resultSkills = filterChildrenSkills(filteredSkills, childrensId);
-      return  resultSkills;
-    })
-    .catch((err) => {
-      console.log(err.name);
-    });
+  let allSkills = await getAllSkills(path);
+
+  let filteredSkills = getFilteredSkills(allSkills, checkedId);
+  let resultSkills = filterChildrenSkills(filteredSkills, childrensId);
+  return  resultSkills;
+
+
 
 };
 
