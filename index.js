@@ -8,7 +8,7 @@ const cors = require('cors');
 
 const { port: serverPort } = config.get('webServer');
 const mongoURI = config.get('mongoURI');
-const userRouter = require('./server/api/routes/user');
+const skillRouter = require('./server/api/routes/skill');
 
 const start = async () => {
   try {
@@ -30,14 +30,8 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json({ extended: true }));
 
-// TODO: TESTING/REMOVE - An api endpoint that returns a short list of items
-app.get('/api/getList2', (req, res) => {
-  const list = ['item3', 'item4'];
-  res.json(list);
-  console.log('Sent list of items');
-});
 
-app.use('/api', userRouter);
+app.use('/api', skillRouter);
 
 const port = process.env.PORT || serverPort;
 
