@@ -27,10 +27,12 @@ const fillNextId = async (schema, id) => {
 
 //------get roadmap-------------
 
-router.post('/roadmap', (req, res) => {
+router.post('/roadmap', async (req, res) => {
   const cv = req.body;
 
-    const road = bildRoadmap(req.body.path, cv.skills)
+  let resp = await bildRoadmap(req.body.path, cv.skills);
+
+  res.status(200).json(resp);
 
 });
 
