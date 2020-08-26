@@ -1,8 +1,8 @@
 const { Schema, model, Types } = require('mongoose');
 
 
-const SkillSchema = new Schema({
-  path: {type: String},
+const SkillBackSchema = new Schema({
+  path: {type: String, default: 'Back-end'},
   childrenSkills: [{
     detailLevel: {type: Number},
     title: {type: String},
@@ -20,4 +20,4 @@ const SkillSchema = new Schema({
 });
 
 
-module.exports = model('Skill', SkillSchema);
+module.exports = model('SkillBack', SkillBackSchema);
